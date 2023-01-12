@@ -11,21 +11,22 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.util.StringUtils;
-
 import com.example.algamoney.api.model.Lancamento;
 import com.example.algamoney.api.model.Lancamento_;
 import com.example.algamoney.api.repository.filter.LancamentoFilter;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.util.ObjectUtils;
+
+
 
 public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 
     @PersistenceContext
     private EntityManager manager;
 
-    @Override
     public Page<Lancamento> filtrar(LancamentoFilter lancamentoFilter, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Lancamento> criteria = builder.createQuery(Lancamento.class);
@@ -44,7 +45,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
                                         Root<Lancamento> root) {
         List<Predicate> predicates = new ArrayList<>();
 
-        if (!StringUtils.isEmpty(lancamentoFilter.getDescricao())) {
+        if(!ObjectUtils.isEmpty(lancamentoFilter.getDescricao())) {
             predicates.add(builder.like(
                     builder.lower(root.get(Lancamento_.descricao)), "%" + lancamentoFilter.getDescricao().toLowerCase() + "%"));
         }
@@ -82,5 +83,4 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
         criteria.select(builder.count(root));
         return manager.createQuery(criteria).getSingleResult();
     }
-
 }

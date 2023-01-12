@@ -1,13 +1,11 @@
 package com.example.algamoney.api.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.Embeddable;
 
 @Embeddable
-@Getter
-@Setter
+@Data
 public class Endereco {
 
     private String logradouro;

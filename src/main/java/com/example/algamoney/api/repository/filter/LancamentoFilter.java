@@ -18,5 +18,5 @@ public class LancamentoFilter {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate dataVencimentoAte;
 
-
 }
+
